@@ -26,6 +26,7 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
+    st.markdown("FOR INTERNAL USE ONLY")
     
 if openai_api_key:
     os.environ["OPENAI_API_KEY"] = openai_api_key
