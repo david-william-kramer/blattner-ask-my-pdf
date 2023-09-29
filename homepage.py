@@ -20,6 +20,7 @@ from langchain.chat_models import ChatOpenAI
 
 st.title('📄 Blattner Tech: Ask My PDF')
 st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any PDF and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: left; color: #0076fc;'>(For Internal Use Only)</h4>", unsafe_allow_html=True)
 
 load_dotenv()
 
@@ -27,7 +28,6 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
-    st.markdown("FOR INTERNAL USE ONLY")
     
 if openai_api_key:
     os.environ["OPENAI_API_KEY"] = openai_api_key
