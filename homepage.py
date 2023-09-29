@@ -43,7 +43,7 @@ with st.form("chat_input", clear_on_submit=True):
     )
     b.form_submit_button("Send", use_container_width=True)
 
-if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+if "pdf" in globals() and pdf not in ["None", None]:
     pdf_reader = PdfReader(pdf)
     text = ""
     for page in pdf_reader.pages:
@@ -65,7 +65,7 @@ if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input and openai_api_key:
+elif user_input:
     try:
         result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
         answer = result["answer"]
