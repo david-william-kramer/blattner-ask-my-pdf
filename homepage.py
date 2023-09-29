@@ -29,7 +29,7 @@ with st.sidebar:
 
 @st.cache_data
 def load_api_key(openai_api_key):
-    os.environ["OPENAI_API_KEY"] = openai_api_key
+    os.environ["OPENAI_API_KEY"] = openai_api_key.strip()
 
 if openai_api_key:
     load_api_key(openai_api_key)
