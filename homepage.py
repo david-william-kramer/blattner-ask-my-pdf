@@ -19,6 +19,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 st.title('📄 Blattner Tech: Ask My PDF')
+st.markdown("<h3 style='text-align: left; color: blue;'>Upload any PDF and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
 
 load_dotenv()
 
@@ -30,6 +31,8 @@ with st.sidebar:
     
 if openai_api_key:
     os.environ["OPENAI_API_KEY"] = openai_api_key
+else:
+    st.info("Please enter your OpenAI API key to continue.")
     
 if 'chat_history' not in globals():
   chat_history = []
@@ -73,9 +76,11 @@ if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
 elif user_input and openai_api_key:
     try:
-        result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
-        answer = result["answer"]
+        st.info("You Asked: {user_input}")
+        with st.spinner("Retrieving Answer..."):
+            result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
+            answer = result["answer"]
         st.session_state.chat_history.append((user_input, answer))
-        st.info(f"You Asked: {user_input}\n\nThe Answer:\n\n{answer}")
+        st.info(answer)
     except:
         st.info("Please ask a question about your document to continue")
