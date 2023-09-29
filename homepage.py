@@ -19,6 +19,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 st.title('📄 Blattner Tech: Ask My PDF')
+os.environ["OPENAI_API_KEY"] = "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"
 
 load_dotenv()
 
@@ -26,13 +27,6 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
-
-@st.cache_data
-def load_api_key(openai_api_key):
-    os.environ["OPENAI_API_KEY"] = openai_api_key.strip()
-
-if openai_api_key:
-    load_api_key(openai_api_key)
 
 if 'chat_history' not in globals():
   chat_history = []
