@@ -19,7 +19,6 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 st.title('📄 Blattner Tech: Ask My PDF')
-os.environ["OPENAI_API_KEY"] = "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"
 
 load_dotenv()
 
@@ -28,6 +27,12 @@ with st.sidebar:
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
 
+def load_api_key(openai_api_key):
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+
+if openai_api_key:
+    load_api_key(openai_api_key)
+    
 if 'chat_history' not in globals():
   chat_history = []
 
@@ -43,29 +48,32 @@ with st.form("chat_input", clear_on_submit=True):
     )
     b.form_submit_button("Send", use_container_width=True)
 
-if "pdf" in globals() and pdf not in ["None", None]:
-    pdf_reader = PdfReader(pdf)
-    text = ""
-    for page in pdf_reader.pages:
-        text+= page.extract_text()
-
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = 1000,
-        chunk_overlap = 200,
-        length_function = len
-    )
-    chunks = text_splitter.split_text(text=text)
+if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+    try:
+        pdf_reader = PdfReader(pdf)
+        text = ""
+        for page in pdf_reader.pages:
+            text+= page.extract_text()
     
-    embeddings = OpenAIEmbeddings()
-    vectorstore = FAISS.from_texts(chunks,embedding=embeddings)
-    
-    qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(),
-                                                     vectorstore.as_retriever(search_kwargs={'k': 6}),
-                                                     return_source_documents=True)
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size = 1000,
+            chunk_overlap = 200,
+            length_function = len
+        )
+        chunks = text_splitter.split_text(text=text)
+        
+        embeddings = OpenAIEmbeddings()
+        vectorstore = FAISS.from_texts(chunks,embedding=embeddings)
+        
+        qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(),
+                                                         vectorstore.as_retriever(search_kwargs={'k': 6}),
+                                                         return_source_documents=True)
+    except:
+        st.info("OpenAI API key is invalid. Please enter a valid API key to continue.")
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input:
+elif user_input and openai_api_key:
     try:
         result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
         answer = result["answer"]
