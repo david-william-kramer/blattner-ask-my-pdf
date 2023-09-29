@@ -20,13 +20,13 @@ from langchain.chat_models import ChatOpenAI
 
 os.environ["OPENAI_API_KEY"] = "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"
 
-st.title('📄 Ask My MePS: Windover Abu Dhabi')
+st.title('📄 Blattner Tech: Ask My PDF')
 
 load_dotenv()
 
 with st.sidebar:
     pdf = st.file_uploader("Upload your PDF", type='pdf')
-    st.image("MePS app logo.png", use_column_width=True)
+    st.image("blattner_tech_logo.png", use_column_width=True)
 
 
 if 'chat_history' not in globals():
