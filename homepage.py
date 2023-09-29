@@ -18,16 +18,21 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
-os.environ["OPENAI_API_KEY"] = "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"
-
 st.title('📄 Blattner Tech: Ask My PDF')
 
 load_dotenv()
 
 with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
 
+@st.cache_data
+def load_api_key(openai_api_key):
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+
+if openai_api_key:
+    load_api_key(openai_api_key)
 
 if 'chat_history' not in globals():
   chat_history = []
@@ -44,7 +49,7 @@ with st.form("chat_input", clear_on_submit=True):
     )
     b.form_submit_button("Send", use_container_width=True)
 
-if "pdf" in globals() and pdf not in ["None", None]:
+if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
     pdf_reader = PdfReader(pdf)
     text = ""
     for page in pdf_reader.pages:
@@ -66,7 +71,7 @@ if "pdf" in globals() and pdf not in ["None", None]:
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input:
+elif user_input and openai_api_key:
     try:
         result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
         answer = result["answer"]
