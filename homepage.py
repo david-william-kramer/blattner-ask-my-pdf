@@ -19,7 +19,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 
 st.title('📄 Blattner Tech: Ask My PDF')
-st.markdown("<h3 style='text-align: left; color: #01acfa;'>Upload any PDF and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any PDF and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
 
 load_dotenv()
 
