@@ -74,28 +74,25 @@ with st.form("chat_input", clear_on_submit=True):
 @st.cache_data(show_spinner = "Passing document embeddings to vector database...")
 def load_document(pdf):
   if "pdf" in globals() and pdf not in ["None", None]:
-      try:
-          pdf_reader = PdfReader(pdf)
-          text = ""
-          for page in pdf_reader.pages:
-              text+= page.extract_text()
+      pdf_reader = PdfReader(pdf)
+      text = ""
+      for page in pdf_reader.pages:
+          text+= page.extract_text()
+  
+      text_splitter = RecursiveCharacterTextSplitter(
+          chunk_size = 1000,
+          chunk_overlap = 200,
+          length_function = len
+      )
+      chunks = text_splitter.split_text(text=text)
       
-          text_splitter = RecursiveCharacterTextSplitter(
-              chunk_size = 1000,
-              chunk_overlap = 200,
-              length_function = len
-          )
-          chunks = text_splitter.split_text(text=text)
-          
-          embeddings = OpenAIEmbeddings()
-          vectorstore = FAISS.from_texts(chunks,embedding=embeddings)
-          
-          qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(),
-                                                           vectorstore.as_retriever(search_kwargs={'k': 6}),
-                                                           return_source_documents=True)
-          return qa_chain
-      except:
-          return "OpenAI API key is invalid. Please enter a valid API key to continue."
+      embeddings = OpenAIEmbeddings()
+      vectorstore = FAISS.from_texts(chunks,embedding=embeddings)
+      
+      qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(),
+                                                       vectorstore.as_retriever(search_kwargs={'k': 6}),
+                                                       return_source_documents=True)
+      return qa_chain
 
 qa_chain = load_document(pdf)
 
