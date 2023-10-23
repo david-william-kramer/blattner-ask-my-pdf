@@ -63,12 +63,6 @@ def load_computation_agent():
 
 if openai_api_key:
     llm, chatopenai, mrkl = load_computation_agent()
-    
-if 'chat_history' not in globals():
-  chat_history = []
-
-if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = chat_history
 
 with st.form("chat_input", clear_on_submit=True):
     a, b = st.columns([6, 1])
@@ -126,9 +120,9 @@ elif user_input and openai_api_key:
     #try:
     st.info(f"You Asked: {user_input}")
     with st.spinner("Retrieving Answer..."):
-        result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
+        result = qa_chain({'question': user_input, 'chat_history': []})
         context = result["answer"]
-    st.session_state.chat_history.append((user_input, context))
+    #st.session_state.chat_history.append((user_input, context))
     with st.spinner("Building Chain-of-Thought..."):
         llm_response = computation_decision_chain.run({"text": user_input, "context": context})
 
