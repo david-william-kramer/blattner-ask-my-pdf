@@ -31,6 +31,21 @@ os.environ["SERPER_API_KEY"] = '099fb81a3b2ba61ebdbe08e6424d3bb44bdd0505'
 st.title('📄 Merlin Cyber: Ask My Tax PDF')
 st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any tax file and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
 
+load_dotenv()
+
+with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password") #Replace with user_input box eventually
+    pdf = st.file_uploader("Upload your PDF", type='pdf')
+    st.image("blattner_tech_logo.png", use_column_width=True)
+    st.image("Merlin-Cyber.png", use_column_width = True)
+    st.markdown("<h4 style='text-align: left; color: #0076fc;'>(For Internal Use Only)</h4>", unsafe_allow_html=True)
+    
+if openai_api_key:
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+    openai.api_key = openai_api_key
+else:
+    st.info("Please enter your OpenAI API key to continue.")
+
 @st.cache_data(show_spinner = "Loading Retrieval Augmented Computation (RAC) Agent...")
 def load_computation_agent():
   if openai_api_key:
@@ -47,21 +62,6 @@ def load_computation_agent():
     return llm, chatopenai, mrkl
 
 llm, chatopenai, mrkl = load_computation_agent()
-
-load_dotenv()
-
-with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password") #Replace with user_input box eventually
-    pdf = st.file_uploader("Upload your PDF", type='pdf')
-    st.image("blattner_tech_logo.png", use_column_width=True)
-    st.image("Merlin-Cyber.png", use_column_width = True)
-    st.markdown("<h4 style='text-align: left; color: #0076fc;'>(For Internal Use Only)</h4>", unsafe_allow_html=True)
-    
-if openai_api_key:
-    os.environ["OPENAI_API_KEY"] = openai_api_key
-    openai.api_key = openai_api_key
-else:
-    st.info("Please enter your OpenAI API key to continue.")
     
 if 'chat_history' not in globals():
   chat_history = []
