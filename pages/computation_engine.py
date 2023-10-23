@@ -25,7 +25,6 @@ from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, TransformChain, SimpleSequentialChain
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
 os.environ['WOLFRAM_ALPHA_APPID'] = 'Y8XVGA-EAQWARHA6U'
 os.environ["SERPER_API_KEY"] = '099fb81a3b2ba61ebdbe08e6424d3bb44bdd0505'
 
@@ -51,10 +50,16 @@ llm, chatopenai, mrkl = load_computation_agent()
 load_dotenv()
 
 with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password") #Replace with user_input box eventually
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
     st.image("Merlin-Cyber.png", use_column_width = True)
     st.markdown("<h4 style='text-align: left; color: #0076fc;'>(For Internal Use Only)</h4>", unsafe_allow_html=True)
+    
+if openai_api_key:
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+else:
+    st.info("Please enter your OpenAI API key to continue.")
     
 if 'chat_history' not in globals():
   chat_history = []
@@ -112,7 +117,7 @@ computation_decision_chain = LLMChain(llm=chatopenai, prompt=computation_decisio
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input:
+elif user_input and openai_api_key:
     #try:
     st.info(f"You Asked: {user_input}")
     with st.spinner("Retrieving Answer..."):
