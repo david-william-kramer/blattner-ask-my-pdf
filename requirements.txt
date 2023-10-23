@@ -20,3 +20,4 @@ openai
 tiktoken
 faiss-cpu==1.7.4
 matplotlib
+wolframalpha
