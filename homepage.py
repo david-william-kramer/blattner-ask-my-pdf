@@ -24,7 +24,7 @@ st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any tax file a
 load_dotenv()
 
 with st.sidebar:
-    openai_api_key = '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' #Replace with user_input box eventually
+    openai_api_key = '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' #Replace with user_input box eventually
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
     st.image("Merlin-Cyber.png", use_column_width = True)
