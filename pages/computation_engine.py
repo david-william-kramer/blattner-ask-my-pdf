@@ -33,17 +33,18 @@ st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any tax file a
 
 @st.cache_data(show_spinner = "Loading Retrieval Augmented Computation (RAC) Agent...")
 def load_computation_agent():
-  llm = OpenAI(temperature=0)
-  chatopenai = ChatOpenAI(model_name="gpt-3.5-turbo", temperature = 0.2)
-  wolfram = WolframAlphaAPIWrapper()
-  
-  tools = [Tool(
-          name="Wolfram",
-          func=wolfram.run,
-          description="Useful for when you need to answer questions requiring computation or in topic areas like math, science, geography, etc.")]
-  
-  mrkl = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
-  return llm, chatopenai, mrkl
+  if openai_api_key:
+    llm = OpenAI(temperature=0)
+    chatopenai = ChatOpenAI(model_name="gpt-3.5-turbo", temperature = 0.2)
+    wolfram = WolframAlphaAPIWrapper()
+    
+    tools = [Tool(
+            name="Wolfram",
+            func=wolfram.run,
+            description="Useful for when you need to answer questions requiring computation or in topic areas like math, science, geography, etc.")]
+    
+    mrkl = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
+    return llm, chatopenai, mrkl
 
 llm, chatopenai, mrkl = load_computation_agent()
 
