@@ -61,7 +61,8 @@ def load_computation_agent():
     mrkl = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
     return llm, chatopenai, mrkl
 
-llm, chatopenai, mrkl = load_computation_agent()
+if openai_api_key:
+    llm, chatopenai, mrkl = load_computation_agent()
     
 if 'chat_history' not in globals():
   chat_history = []
@@ -101,7 +102,8 @@ def load_document(pdf):
                                                        return_source_documents=True)
       return qa_chain
 
-qa_chain = load_document(pdf)
+if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+    qa_chain = load_document(pdf)
 
 computation_classifier_prompt = """
 I want you to act as an automated agent with experience in the field of tax preparation.
@@ -114,8 +116,9 @@ Tax Form Context: {context}
 Computation Decision:
 """
 
-computation_decision_template = PromptTemplate(template=computation_classifier_prompt, input_variables=["text", "context"])
-computation_decision_chain = LLMChain(llm=chatopenai, prompt=computation_decision_template)
+if openai_api_key:
+    computation_decision_template = PromptTemplate(template=computation_classifier_prompt, input_variables=["text", "context"])
+    computation_decision_chain = LLMChain(llm=chatopenai, prompt=computation_decision_template)
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
