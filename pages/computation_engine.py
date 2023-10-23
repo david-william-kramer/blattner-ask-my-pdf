@@ -58,6 +58,7 @@ with st.sidebar:
     
 if openai_api_key:
     os.environ["OPENAI_API_KEY"] = openai_api_key
+    openai.api_key = openai_api_key
 else:
     st.info("Please enter your OpenAI API key to continue.")
     
