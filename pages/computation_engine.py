@@ -9,6 +9,7 @@ from langchain.callbacks import get_openai_callback
 import pickle, os, base64
 from dotenv import load_dotenv
 import sys
+import openai
 import os
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
