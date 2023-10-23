@@ -77,7 +77,7 @@ if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
 elif user_input and openai_api_key:
     try:
-        st.info("You Asked: {user_input}")
+        st.info(f"You Asked: {user_input}")
         with st.spinner("Retrieving Answer..."):
             result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
             answer = result["answer"]
