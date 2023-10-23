@@ -50,7 +50,8 @@ with st.form("chat_input", clear_on_submit=True):
     )
     b.form_submit_button("Send", use_container_width=True)
 
-if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+@st.cache_data(show_spinner = "Sending document embeddings to vector database...")
+def load_document(pdf):
     try:
         pdf_reader = PdfReader(pdf)
         text = ""
@@ -70,12 +71,17 @@ if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
         qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(),
                                                          vectorstore.as_retriever(search_kwargs={'k': 6}),
                                                          return_source_documents=True)
+        return qa_chain
     except:
         st.info("OpenAI API key is invalid. Please enter a valid API key to continue.")
+        return None
+
+if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+    qa_chain = load_document(pdf)    
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input and openai_api_key:
+elif user_input and openai_api_key and qa_chain not in ["None", None]:
     try:
         st.info(f"You Asked: {user_input}")
         with st.spinner("Retrieving Answer..."):
