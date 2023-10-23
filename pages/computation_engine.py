@@ -78,7 +78,7 @@ with st.form("chat_input", clear_on_submit=True):
 
 @st.cache_data(show_spinner = "Passing document embeddings to vector database...")
 def load_document(pdf):
-  if "pdf" in globals() and pdf not in ["None", None]:
+  if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
       pdf_reader = PdfReader(pdf)
       text = ""
       for page in pdf_reader.pages:
