@@ -88,6 +88,6 @@ elif user_input and openai_api_key and qa_chain not in ["None", None]:
             result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
             answer = result["answer"]
         st.session_state.chat_history.append((user_input, answer))
-        st.info(answer)
+        st.info(answer.replace("$", "\$"))
     except:
         st.info("Please ask a question about your document to continue")
