@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import sys
 import openai
 import os
+import statistics
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma
