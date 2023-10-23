@@ -18,7 +18,6 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
 from langchain.chains.summarize import load_summarize_chain
-from langchain.utilities import GoogleSerperAPIWrapper
 from langchain.llms import OpenAI
 from langchain.agents import initialize_agent, Tool
 from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
