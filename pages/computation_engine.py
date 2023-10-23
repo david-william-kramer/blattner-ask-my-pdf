@@ -115,7 +115,7 @@ computation_decision_chain = LLMChain(llm=chatopenai, prompt=computation_decisio
 
 if user_input and "pdf" not in globals():
     st.info("Please upload a document to continue")
-elif user_input and openai_api_key:
+elif user_input:
     #try:
     st.info(f"You Asked: {user_input}")
     with st.spinner("Retrieving Answer..."):
