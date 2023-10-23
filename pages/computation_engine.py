@@ -24,7 +24,7 @@ from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, TransformChain, SimpleSequentialChain
 
-os.environ['OPENAI_API_KEY'] = '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'
+openai.api_key = os.environ["OPENAI_API_KEY"]
 os.environ['WOLFRAM_ALPHA_APPID'] = 'Y8XVGA-EAQWARHA6U'
 os.environ["SERPER_API_KEY"] = '099fb81a3b2ba61ebdbe08e6424d3bb44bdd0505'
 
