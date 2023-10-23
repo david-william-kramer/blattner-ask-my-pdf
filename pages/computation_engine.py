@@ -24,12 +24,9 @@ from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, TransformChain, SimpleSequentialChain
 
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 os.environ['WOLFRAM_ALPHA_APPID'] = 'Y8XVGA-EAQWARHA6U'
 os.environ["SERPER_API_KEY"] = '099fb81a3b2ba61ebdbe08e6424d3bb44bdd0505'
-openai_api_key = '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' #Replace with user_input box eventually
-
-
 
 st.title('📄 Merlin Cyber: Ask My Tax PDF')
 st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any tax file and get immediate answers to your most pressing questions</h3>", unsafe_allow_html=True)
@@ -53,16 +50,10 @@ llm, chatopenai, mrkl = load_computation_agent()
 load_dotenv()
 
 with st.sidebar:
-    openai_api_key = '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' #Replace with user_input box eventually
     pdf = st.file_uploader("Upload your PDF", type='pdf')
     st.image("blattner_tech_logo.png", use_column_width=True)
     st.image("Merlin-Cyber.png", use_column_width = True)
     st.markdown("<h4 style='text-align: left; color: #0076fc;'>(For Internal Use Only)</h4>", unsafe_allow_html=True)
-    
-if openai_api_key:
-    os.environ["OPENAI_API_KEY"] = openai_api_key
-else:
-    st.info("Please enter your OpenAI API key to continue.")
     
 if 'chat_history' not in globals():
   chat_history = []
@@ -81,7 +72,7 @@ with st.form("chat_input", clear_on_submit=True):
 
 @st.cache_data(show_spinner = "Passing document embeddings to vector database...")
 def load_document(pdf):
-  if "pdf" in globals() and pdf not in ["None", None] and openai_api_key:
+  if "pdf" in globals() and pdf not in ["None", None]:
       try:
           pdf_reader = PdfReader(pdf)
           text = ""
