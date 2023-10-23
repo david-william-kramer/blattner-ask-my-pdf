@@ -36,7 +36,6 @@ st.markdown("<h3 style='text-align: left; color: #0076fc;'>Upload any tax file a
 def load_computation_agent():
   llm = OpenAI(temperature=0)
   chatopenai = ChatOpenAI(model_name="gpt-3.5-turbo", temperature = 0.2)
-  search = GoogleSerperAPIWrapper()
   wolfram = WolframAlphaAPIWrapper()
   
   tools = [Tool(
