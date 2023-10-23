@@ -21,6 +21,8 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.llms import OpenAI
 from langchain.agents import initialize_agent, Tool
 from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain, TransformChain, SimpleSequentialChain
 
 os.environ['OPENAI_API_KEY'] = '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'
 os.environ['WOLFRAM_ALPHA_APPID'] = 'Y8XVGA-EAQWARHA6U'
