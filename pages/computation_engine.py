@@ -127,8 +127,8 @@ elif user_input and openai_api_key:
     st.info(f"You Asked: {user_input}")
     with st.spinner("Retrieving Answer..."):
         result = qa_chain({'question': user_input, 'chat_history': st.session_state.chat_history})
-        answer = result["answer"]
-    st.session_state.chat_history.append((user_input, answer))
+        context = result["answer"]
+    st.session_state.chat_history.append((user_input, context))
     with st.spinner("Building Chain-of-Thought..."):
         llm_response = computation_decision_chain.run({"text": user_input, "context": context})
 
