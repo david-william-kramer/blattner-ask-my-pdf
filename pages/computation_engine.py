@@ -24,10 +24,10 @@ from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, TransformChain, SimpleSequentialChain
 
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 os.environ['WOLFRAM_ALPHA_APPID'] = 'Y8XVGA-EAQWARHA6U'
 os.environ["SERPER_API_KEY"] = '099fb81a3b2ba61ebdbe08e6424d3bb44bdd0505'
-openai_api_key = "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"
+openai_api_key = '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' #Replace with user_input box eventually
 
 
 
