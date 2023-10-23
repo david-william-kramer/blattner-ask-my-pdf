@@ -155,9 +155,9 @@ elif user_input and openai_api_key:
         else:
           self_consistent_answer = final_answer_response_line
         answer = f"{context}\n\n{self_consistent_answer}"
-        st.info(answer)
+        st.info(answer.replace("$", "\$"))
     else:
-      st.info(context)
+      st.info(context.replace("$", "\$"))
         
     # except:
     #     st.info("Please ask a question about your document to continue")
